@@ -2,7 +2,237 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: #050505;
+  color: #fff;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CUSTOM CURSOR ─────────────────────────────── */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #eab308;
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, background 0.2s;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(234,179,8,0.6);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+}
+
+.cursor-ring.hovered {
+  width: 60px;
+  height: 60px;
+  border-color: #eab308;
+}
+
+/* ─── NAVBAR ─────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1.5px;
+  background: #eab308;
+  transition: width 0.4s ease;
+}
+.nav-link:hover::after { width: 100%; }
+.nav-link:hover { color: #eab308; }
+
+/* ─── HERO ───────────────────────────────────────── */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1974&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+.gold-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #eab308, transparent);
+}
+
+/* ─── SECTION LABELS ─────────────────────────────── */
+.section-label {
+  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #eab308;
   font-family: Arial, sans-serif;
 }
+
+/* ─── PROJECT CARDS ──────────────────────────────── */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #111;
+  border: 1px solid rgba(234,179,8,0.12);
+  transition: border-color 0.4s;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.project-card:hover { border-color: rgba(234,179,8,0.5); }
+
+.project-card .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.project-card:hover .overlay { opacity: 1; }
+
+.project-card .card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.5rem;
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.project-card:hover .card-info { transform: translateY(0); }
+
+/* ─── STAT COUNTER ───────────────────────────────── */
+.stat-card {
+  background: linear-gradient(135deg, #111 0%, #1a1a00 100%);
+  border: 1px solid rgba(234,179,8,0.15);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  transition: border-color 0.4s, transform 0.4s;
+}
+.stat-card:hover {
+  border-color: rgba(234,179,8,0.5);
+  transform: translateY(-6px);
+}
+
+/* ─── MOBILE NAV ─────────────────────────────────── */
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  background: rgba(5,5,5,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.mobile-nav a {
+  font-size: 2rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: color 0.3s;
+}
+.mobile-nav a:hover { color: #eab308; }
+
+/* ─── SCROLL INDICATOR ───────────────────────────── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(10px); opacity: 0.4; }
+}
+.scroll-indicator { animation: scrollBounce 2s infinite; }
+
+/* ─── SHIMMER BUTTON ─────────────────────────────── */
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3s infinite;
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* ─── CONTACT ICONS ──────────────────────────────── */
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(234,179,8,0.1);
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+  font-size: 1.05rem;
+}
+.contact-item:hover {
+  border-color: rgba(234,179,8,0.5);
+  background: rgba(234,179,8,0.06);
+  color: #eab308;
+}
+
+/* ─── FOOTER ─────────────────────────────────────── */
+.footer-glow {
+  background: linear-gradient(90deg, transparent, rgba(234,179,8,0.3), transparent);
+  height: 1px;
+}
+
+/* ─── PARALLAX SECTION ───────────────────────────── */
+.parallax-text {
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* ─── SVG DRAW ───────────────────────────────────── */
+.svg-line {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: drawLine 2s ease forwards;
+}
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ─── GLOW PULSE ─────────────────────────────────── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(234,179,8,0.2); }
+  50% { box-shadow: 0 0 30px rgba(234,179,8,0.6), 0 0 60px rgba(234,179,8,0.2); }
+}
+.glow-pulse { animation: glowPulse 3s infinite; }
