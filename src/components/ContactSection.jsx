@@ -110,10 +110,10 @@ export default function ContactSection() {
       >
         <div className="footer-glow mb-6" />
         <p className="text-gray-600 text-sm tracking-widest uppercase">
-          © 2026 G Designs Architects & Builders. All rights reserved.
+          &copy; 2026 G Designs Architects &amp; Builders. All rights reserved.
         </p>
         <p className="text-gray-700 text-xs mt-2 tracking-wide">
-          Crafted with passion — Kerala & Bengaluru
+          Crafted with passion &mdash; JoinDeeHub by DEEPIKA NARENDRAN
         </p>
       </motion.div>
     </section>
