@@ -4,35 +4,32 @@ import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-mo
 const specialties = ['Residential', 'Commercial', 'Interior', 'Landscape', 'Villa Design'];
 
 const pillars = [
-  { num: '12+', label: 'Years of Excellence' },
-  { num: '200+', label: 'Projects Delivered' },
-  { num: '3', label: 'South Indian States' },
-  { num: '98%', label: 'Client Satisfaction' },
+  { num: '9+',        label: 'Years of Excellence' },
+  { num: 'Multiple', label: 'Projects Delivered' },
+  { num: 'Multiple\nCities', label: 'South Indian' },
+  { num: '100%',     label: 'Client Satisfaction' },
 ];
 
 export default function AboutSection() {
   const sectionRef = useRef(null);
-  const imgRef = useRef(null);
-  const inView = useInView(sectionRef, { once: true, margin: '-100px' });
+  const imgRef    = useRef(null);
+  const inView    = useInView(sectionRef, { once: true, margin: '-100px' });
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
 
-  // Depth parallax on image
-  const rawImgY = useTransform(scrollYProgress, [0, 1], [-40, 40]);
-  const rawImgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1, 1.04]);
-  const imgY = useSpring(rawImgY, { stiffness: 60, damping: 20 });
-  const imgScale = useSpring(rawImgScale, { stiffness: 60, damping: 20 });
+  const rawImgY    = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+  const rawImgScale= useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1, 1.04]);
+  const imgY       = useSpring(rawImgY,    { stiffness: 60, damping: 20 });
+  const imgScale   = useSpring(rawImgScale,{ stiffness: 60, damping: 20 });
 
-  // Text parallax
   const rawTextY = useTransform(scrollYProgress, [0, 1], [30, -30]);
-  const textY = useSpring(rawTextY, { stiffness: 60, damping: 20 });
+  const textY    = useSpring(rawTextY, { stiffness: 60, damping: 20 });
 
-  // 3D tilt on image container
   const rawRotateY = useTransform(scrollYProgress, [0, 0.5, 1], [-6, 0, 4]);
-  const rotateY = useSpring(rawRotateY, { stiffness: 60, damping: 20 });
+  const rotateY    = useSpring(rawRotateY, { stiffness: 60, damping: 20 });
 
   return (
     <section
@@ -41,7 +38,7 @@ export default function AboutSection() {
       className="relative py-32 px-6 md:px-16 bg-[#060606] overflow-hidden"
       style={{ perspective: '1200px' }}
     >
-      {/* Background grid */}
+      {/* BG grid */}
       <div className="absolute inset-0 pointer-events-none" style={{
         backgroundImage: 'linear-gradient(rgba(234,179,8,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(234,179,8,0.02) 1px, transparent 1px)',
         backgroundSize: '60px 60px',
@@ -55,7 +52,7 @@ export default function AboutSection() {
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
 
-        {/* Image — 3D depth */}
+        {/* ── IMAGE ── */}
         <motion.div
           className="relative"
           style={{ rotateY, transformStyle: 'preserve-3d' }}
@@ -63,19 +60,24 @@ export default function AboutSection() {
           animate={inView ? { opacity: 1, x: 0, rotateY: 0 } : {}}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="relative rounded-2xl overflow-hidden" style={{ boxShadow: '0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(234,179,8,0.1)' }}>
+          <div
+            className="relative rounded-2xl overflow-hidden"
+            style={{ boxShadow: '0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(234,179,8,0.1)' }}
+          >
             <motion.img
               ref={imgRef}
               src="/house1.jpeg"
               alt="G Designs Architecture"
-              className="w-full h-[500px] object-cover"
+              className="w-full h-[500px] object-cover object-center"
               style={{ y: imgY, scale: imgScale }}
+              whileHover={{ scale: 1.06 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
           </div>
 
-          {/* South India floating badge */}
+          {/* South India badge */}
           <motion.div
             className="absolute -bottom-5 -left-5 bg-yellow-500 text-black text-xs font-bold tracking-widest uppercase px-5 py-3 rounded-xl shadow-2xl"
             initial={{ opacity: 0, y: 20, x: -10 }}
@@ -97,7 +99,6 @@ export default function AboutSection() {
             Multi-City Projects
           </motion.div>
 
-          {/* Depth shadow plane */}
           <div className="absolute -inset-1 rounded-2xl -z-10" style={{
             background: 'rgba(234,179,8,0.06)',
             transform: 'translateZ(-20px) translateX(12px) translateY(12px)',
@@ -105,7 +106,7 @@ export default function AboutSection() {
           }} />
         </motion.div>
 
-        {/* Text — parallax scroll */}
+        {/* ── TEXT ── */}
         <motion.div
           style={{ y: textY }}
           initial={{ opacity: 0, x: 80 }}
@@ -134,14 +135,14 @@ export default function AboutSection() {
           />
 
           <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-4">
-            G Designs Architects & Builders is a premier architectural and construction firm rooted in South India. We craft residences, villas, and commercial spaces that reflect the aspirations of those who inhabit them.
+            G Designs Architects &amp; Builders is a premier architectural and construction firm rooted in South India. We craft residences, villas, and commercial spaces that reflect the aspirations of those who inhabit them.
           </p>
           <p className="text-gray-500 text-base leading-relaxed mb-10">
             From detailed floor plans to luxury elevations, we deliver end-to-end design and construction with precision — serving clients across Kerala, Karnataka, and Tamil Nadu.
           </p>
 
-          {/* Pillar counters */}
-          <div className="grid grid-cols-2 gap-6 mb-10">
+          {/* ── PILLAR COUNTERS ── */}
+          <div className="grid grid-cols-2 gap-5 mb-10">
             {pillars.map((p, i) => (
               <motion.div
                 key={i}
@@ -151,8 +152,11 @@ export default function AboutSection() {
                 transition={{ delay: 0.6 + i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ borderColor: 'rgba(234,179,8,0.4)', background: 'rgba(234,179,8,0.04)' }}
               >
-                <div className="text-3xl font-black text-yellow-400" style={{ fontVariantNumeric: 'tabular-nums' }}>{p.num}</div>
-                <div className="text-gray-500 text-xs tracking-widest uppercase mt-1">{p.label}</div>
+                {/* Number — handle newline in "Multiple\nCities" */}
+                <div className="text-2xl md:text-3xl font-black text-yellow-400 leading-tight whitespace-pre-line">
+                  {p.num}
+                </div>
+                <div className="text-gray-500 text-[10px] tracking-widest uppercase mt-1">{p.label}</div>
               </motion.div>
             ))}
           </div>
