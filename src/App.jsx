@@ -1,32 +1,25 @@
-import { useEffect } from 'react';
-import { useSmoothScroll } from './hooks/useSmoothScroll';
-import { useScrollAnimation } from './hooks/useScrollAnimation';
-import CustomCursor from './components/CustomCursor';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection';
 import MarqueeSection from './components/MarqueeSection';
+import AboutSection from './components/AboutSection';
+import CinematicScroll from './components/CinematicScroll';
 import ProjectsSection from './components/ProjectsSection';
 import FloorPlanSection from './components/FloorPlanSection';
 import ContactSection from './components/ContactSection';
-import './App.css';
+import CustomCursor from './components/CustomCursor';
 
-function App() {
-  useSmoothScroll();
-  useScrollAnimation();
-
+export default function App() {
   return (
-    <div className="bg-[#050505] text-white overflow-x-hidden">
+    <>
       <CustomCursor />
       <Navbar />
       <HeroSection />
       <MarqueeSection />
       <AboutSection />
+      <CinematicScroll />
       <ProjectsSection />
       <FloorPlanSection />
       <ContactSection />
-    </div>
+    </>
   );
 }
-
-export default App;
