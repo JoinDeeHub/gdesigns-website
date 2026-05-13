@@ -22,35 +22,43 @@ body {
 
 /* ─── CUSTOM CURSOR ─────────────────────────────── */
 .cursor-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   background: #eab308;
   border-radius: 50%;
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease, background 0.2s;
+  will-change: transform;
+  transition: width 0.25s cubic-bezier(0.16,1,0.3,1),
+              height 0.25s cubic-bezier(0.16,1,0.3,1),
+              background 0.25s;
 }
 
 .cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid rgba(234,179,8,0.6);
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(234,179,8,0.55);
   border-radius: 50%;
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+  transition: width 0.35s cubic-bezier(0.16,1,0.3,1),
+              height 0.35s cubic-bezier(0.16,1,0.3,1),
+              border-color 0.35s,
+              opacity 0.35s;
 }
 
 .cursor-ring.hovered {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-color: #eab308;
+  background: rgba(234,179,8,0.04);
 }
 
 /* ─── NAVBAR ─────────────────────────────────────── */
@@ -76,7 +84,6 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1974&auto=format&fit=crop');
   background-size: cover;
   background-position: center;
   will-change: transform;
@@ -126,20 +133,6 @@ body {
   transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
 }
 .project-card:hover .card-info { transform: translateY(0); }
-
-/* ─── STAT COUNTER ───────────────────────────────── */
-.stat-card {
-  background: linear-gradient(135deg, #111 0%, #1a1a00 100%);
-  border: 1px solid rgba(234,179,8,0.15);
-  border-radius: 1rem;
-  padding: 2rem;
-  text-align: center;
-  transition: border-color 0.4s, transform 0.4s;
-}
-.stat-card:hover {
-  border-color: rgba(234,179,8,0.5);
-  transform: translateY(-6px);
-}
 
 /* ─── MOBILE NAV ─────────────────────────────────── */
 .mobile-nav {
@@ -236,3 +229,41 @@ body {
   50% { box-shadow: 0 0 30px rgba(234,179,8,0.6), 0 0 60px rgba(234,179,8,0.2); }
 }
 .glow-pulse { animation: glowPulse 3s infinite; }
+
+/* ─── TEXT REVEAL CLIP ───────────────────────────── */
+@keyframes clipReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+.clip-reveal {
+  animation: clipReveal 1s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* ─── FLOATING GRAIN OVERLAY ─────────────────────── */
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+}
+
+/* ─── GOLD BADGE TAG ─────────────────────────────── */
+.tag-badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #eab308;
+  border: 1px solid rgba(234,179,8,0.2);
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  display: inline-block;
+  transition: border-color 0.3s, background 0.3s;
+}
+.tag-badge:hover {
+  border-color: rgba(234,179,8,0.5);
+  background: rgba(234,179,8,0.05);
+}

@@ -1,29 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
-const stats = [
-  { number: '50+', label: 'Projects Delivered' },
-  { number: '10+', label: 'Years Experience' },
-  { number: '100%', label: 'Client Satisfaction' },
-  { number: '2', label: 'Locations Served' },
-];
-
-function AnimatedNumber({ value }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  return (
-    <motion.span
-      ref={ref}
-      className="text-4xl md:text-5xl font-extrabold text-yellow-400"
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={inView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
-    >
-      {value}
-    </motion.span>
-  );
-}
-
 export default function AboutSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
@@ -87,6 +64,23 @@ export default function AboutSection() {
                 {text}
               </motion.p>
             ))}
+
+            {/* Elegant signature badges instead of stats */}
+            <motion.div
+              className="flex flex-wrap gap-3 mt-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.7 }}
+            >
+              {['Residential', 'Commercial', 'Interior', 'Landscape', 'Villa Design'].map((tag) => (
+                <span
+                  key={tag}
+                  className="text-[11px] uppercase tracking-[0.25em] text-yellow-500 border border-yellow-500/20 px-4 py-2 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </motion.div>
           </div>
 
           {/* Image with curtain reveal */}
@@ -104,17 +98,24 @@ export default function AboutSection() {
             {/* Gold corner accents */}
             <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-yellow-400 rounded-tl-3xl" />
             <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-yellow-400 rounded-br-3xl" />
+            {/* Floating label */}
+            <motion.div
+              className="absolute -bottom-5 -left-5 bg-yellow-500 text-black px-5 py-3 rounded-xl text-xs font-bold tracking-widest uppercase shadow-xl"
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, delay: 1 }}
+            >
+              South India
+            </motion.div>
+            <motion.div
+              className="absolute -top-5 -right-5 border border-yellow-500/40 text-yellow-400 px-5 py-3 rounded-xl text-xs font-semibold tracking-widest uppercase bg-black/80 backdrop-blur-sm shadow-xl"
+              initial={{ opacity: 0, x: 20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, delay: 1.1 }}
+            >
+              Multi-City Projects
+            </motion.div>
           </motion.div>
-        </div>
-
-        {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20" data-stagger>
-          {stats.map((stat, i) => (
-            <div key={i} className="stat-card">
-              <AnimatedNumber value={stat.number} />
-              <p className="text-gray-400 text-sm mt-2 tracking-wide">{stat.label}</p>
-            </div>
-          ))}
         </div>
 
       </div>

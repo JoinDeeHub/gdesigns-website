@@ -6,24 +6,15 @@ export default function CustomCursor() {
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    const moveCursor = (e) => {
-      const { clientX: x, clientY: y } = e;
-      if (dotRef.current) {
-        dotRef.current.style.left = x + 'px';
-        dotRef.current.style.top = y + 'px';
-      }
-      if (ringRef.current) {
-        // Slight lag for ring
-        setTimeout(() => {
-          if (ringRef.current) {
-            ringRef.current.style.left = x + 'px';
-            ringRef.current.style.top = y + 'px';
-          }
-        }, 60);
-      }
-    };
+    let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    let dot = { x: mouse.x, y: mouse.y };
+    let ring = { x: mouse.x, y: mouse.y };
+    let rafId;
 
-    const handleMouseOver = (e) => {
+    const onMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+
       if (e.target.closest('a, button, .project-card')) {
         setHovered(true);
       } else {
@@ -31,11 +22,33 @@ export default function CustomCursor() {
       }
     };
 
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const tick = () => {
+      // Dot follows mouse instantly (no lag)
+      dot.x = lerp(dot.x, mouse.x, 0.45);
+      dot.y = lerp(dot.y, mouse.y, 0.45);
+
+      // Ring follows with smooth, gentle lag
+      ring.x = lerp(ring.x, mouse.x, 0.1);
+      ring.y = lerp(ring.y, mouse.y, 0.1);
+
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${dot.x}px, ${dot.y}px) translate(-50%, -50%)`;
+      }
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate(${ring.x}px, ${ring.y}px) translate(-50%, -50%)`;
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    rafId = requestAnimationFrame(tick);
+
     return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
